@@ -14,7 +14,7 @@ import requests
 #     print("No se puede abrir el archivo log")
 
 
-API = "http://localhost:5000/api/count"
+API = "http://localhost:4000/api/count"
 # Contadores de entrada y salida
 cnt_up = 0
 cnt_down = 0
