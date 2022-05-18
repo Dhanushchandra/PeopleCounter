@@ -6,12 +6,15 @@ import numpy as np
 import cv2 as cv
 import Person
 import time
+import requests
 
 try:
     log = open('log.txt', "w")
 except:
     print("No se puede abrir el archivo log")
 
+
+API = "http://localhost:3000/messages"
 # Contadores de entrada y salida
 cnt_up = 0
 cnt_down = 0
@@ -144,12 +147,21 @@ while(cap.isOpened()):
                         i.updateCoords(cx, cy)
                         if i.going_UP(line_down, line_up) == True:
                             cnt_up += 1
+                        # API here
+
+                            upData = {"up":  cnt_up}
+                            res = requests.post(API, data=upData)
+
                             print("ID:", i.getId(), 'crossed going up at',
                                   time.strftime("%c"))
                             log.write(
                                 "ID: "+str(i.getId())+' crossed going up at ' + time.strftime("%c") + '\n')
                         elif i.going_DOWN(line_down, line_up) == True:
                             cnt_down += 1
+
+                            DownData = {"down":  cnt_down}
+                            res = requests.post(API, data=DownData)
+
                             print("ID:", i.getId(),
                                   'crossed going down at', time.strftime("%c"))
                             log.write(
@@ -209,7 +221,7 @@ while(cap.isOpened()):
                0.5, (255, 0, 0), 1, cv.LINE_AA)
 
     cv.imshow('Frame', frame)
-    cv.imshow('Mask', mask)
+    #cv.imshow('Mask', mask)
 
 
 # rawCapture.truncate(0)
