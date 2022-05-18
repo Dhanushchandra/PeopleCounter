@@ -8,13 +8,13 @@ import Person
 import time
 import requests
 
-try:
-    log = open('log.txt', "w")
-except:
-    print("No se puede abrir el archivo log")
+# try:
+#     log = open('log.txt', "w")
+# except:
+#     print("No se puede abrir el archivo log")
 
 
-API = "http://localhost:3000/messages"
+API = "http://localhost:5000/api/count"
 # Contadores de entrada y salida
 cnt_up = 0
 cnt_down = 0
@@ -148,24 +148,19 @@ while(cap.isOpened()):
                         if i.going_UP(line_down, line_up) == True:
                             cnt_up += 1
                         # API here
-
-                            upData = {"up":  cnt_up}
-                            res = requests.post(API, data=upData)
-
-                            print("ID:", i.getId(), 'crossed going up at',
-                                  time.strftime("%c"))
-                            log.write(
-                                "ID: "+str(i.getId())+' crossed going up at ' + time.strftime("%c") + '\n')
+                            try:
+                                res = requests.post(API, json={"up": cnt_up})
+                            except:
+                                continue
+                            print("ID:", i.getId())
                         elif i.going_DOWN(line_down, line_up) == True:
                             cnt_down += 1
-
-                            DownData = {"down":  cnt_down}
-                            res = requests.post(API, data=DownData)
-
-                            print("ID:", i.getId(),
-                                  'crossed going down at', time.strftime("%c"))
-                            log.write(
-                                "ID: " + str(i.getId()) + ' crossed going down at ' + time.strftime("%c") + '\n')
+                            try:
+                                res = requests.post(
+                                    API, json={"down":  cnt_down})
+                            except:
+                                continue
+                            print("ID:", i.getId())
                         break
                     if i.getState() == '1':
                         if i.getDir() == 'down' and i.getY() > down_limit:
