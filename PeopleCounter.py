@@ -11,7 +11,7 @@ import requests
 # try:
 #     log = open('log.txt', "w")
 # except:
-#     print("No se puede abrir el archivo log")
+##     print("No se puede abrir el archivo log")
 
 
 API = "http://localhost:4000/api/count"
